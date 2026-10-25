@@ -1,0 +1,8 @@
+*.class
+*.exe
+*.o
+*.out
+*.jceks
+.idea/
+.vscode/
+.DS_Store

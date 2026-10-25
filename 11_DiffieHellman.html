@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Diffie-Hellman Key Exchange</title>
+</head>
+<body>
+    <h2>Diffie-Hellman Key Exchange</h2>
+    <p>Public prime p = 23; public base g = 5</p>
+
+    <label for="alice">Alice's private key:</label>
+    <input id="alice" type="number" value="6"><br><br>
+
+    <label for="bob">Bob's private key:</label>
+    <input id="bob" type="number" value="15"><br><br>
+
+    <button onclick="calculate()">Calculate Shared Key</button>
+    <p id="result"></p>
+
+    <script>
+        function modPower(base, exponent, modulus) {
+            let result = 1;
+            for (let i = 0; i < exponent; i++) {
+                result = (result * base) % modulus;
+            }
+            return result;
+        }
+
+        function calculate() {
+            const p = 23;
+            const g = 5;
+            const a = Number(document.getElementById("alice").value);
+            const b = Number(document.getElementById("bob").value);
+
+            if (a < 1 || b < 1 || !Number.isInteger(a) || !Number.isInteger(b)) {
+                document.getElementById("result").textContent =
+                    "Enter positive whole-number private keys.";
+                return;
+            }
+
+            const A = modPower(g, a, p);
+            const B = modPower(g, b, p);
+            const keyAlice = modPower(B, a, p);
+            const keyBob = modPower(A, b, p);
+
+            document.getElementById("result").innerHTML =
+                "Alice's public key: " + A + "<br>" +
+                "Bob's public key: " + B + "<br>" +
+                "Alice's shared key: " + keyAlice + "<br>" +
+                "Bob's shared key: " + keyBob;
+        }
+    </script>
+</body>
+</html>
